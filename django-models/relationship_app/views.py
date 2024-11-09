@@ -7,6 +7,37 @@ from django.http import HttpResponse
 from django.views.generic.detail import DetailView
 from .models import Library
 from .models import Book
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import HttpResponseForbidden
+from .models import UserProfile
+
+# Helper function to check user role
+def user_is_admin(user):
+    return user.userprofile.role == 'Admin'
+
+def user_is_librarian(user):
+    return user.userprofile.role == 'Librarian'
+
+def user_is_member(user):
+    return user.userprofile.role == 'Member'
+
+# Admin view
+@login_required
+@user_passes_test(user_is_admin)
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')
+
+# Librarian view
+@login_required
+@user_passes_test(user_is_librarian)
+def librarian_view(request):
+    return render(request, 'relationship_app/librarian_view.html')
+
+# Member view
+@login_required
+@user_passes_test(user_is_member)
+def member_view(request):
+    return render(request, 'relationship_app/member_view.html')
 
 def list_books(request):
     # Query all books from the database
