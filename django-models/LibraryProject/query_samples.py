@@ -1,9 +1,3 @@
-import os
-import django
-
-# Set up the Django environment
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')  # Replace with your project name
-django.setup()
 
 from relationship_app.models import Author, Book, Library, Librarian
 
