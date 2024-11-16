@@ -4,6 +4,23 @@ from .models import Book, Genre
 from .forms import BookForm  # Assuming you have a form to handle book creation and editing
 from .forms import BookSearchForm
 
+from .forms import ExampleForm
+
+def example_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Process form data
+            title = form.cleaned_data['title']
+            author = form.cleaned_data['author']
+            description = form.cleaned_data['description']
+            # Handle the data (e.g., save to the database)
+            return render(request, 'bookshelf/success.html', {'title': title})
+    else:
+        form = ExampleForm()
+
+    return render(request, 'bookshelf/form_example.html', {'form': form})
+
 def search_books(request):
     form = BookSearchForm(request.GET)
     if form.is_valid():
