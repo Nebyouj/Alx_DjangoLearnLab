@@ -2,18 +2,18 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # URL for viewing a post
-    path('post/<int:id>/', views.view_post, name='view_post'),
+    # URL for listing all books
+    path('books/', views.book_list, name='book_list'),
     
-    # URL for creating a new post
-    path('post/create/', views.create_post, name='create_post'),
+    # URL for viewing details of a specific book
+    path('book/<int:id>/', views.view_book, name='view_book'),
     
-    # URL for editing an existing post
-    path('post/edit/<int:id>/', views.edit_post, name='edit_post'),
+    # URL for creating a new book
+    path('book/create/', views.create_book, name='create_book'),
     
-    # URL for deleting a post
-    path('post/delete/<int:id>/', views.delete_post, name='delete_post'),
+    # URL for editing an existing book
+    path('book/edit/<int:id>/', views.edit_book, name='edit_book'),
     
-    # URL for listing all posts (optional, if needed)
-    path('posts/', views.post_list, name='post_list'),
+    # URL for deleting a book
+    path('book/delete/<int:id>/', views.delete_book, name='delete_book'),
 ]

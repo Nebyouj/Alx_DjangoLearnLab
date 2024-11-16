@@ -1,36 +1,46 @@
-# views.py
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
-from django.http import HttpResponseForbidden
-from .models import Post
+from .models import Book, Genre
+from .forms import BookForm  # Assuming you have a form to handle book creation and editing
 
-@permission_required('myapp.can_view', raise_exception=True)
-def view_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    return render(request, 'view_post.html', {'post': post})
+# View all books
+def book_list(request):
+    books = Book.objects.all()  # Fetch all books from the database
+    return render(request, 'book_list.html', {'books': books})
 
-@permission_required('myapp.can_create', raise_exception=True)
-def create_post(request):
+# View details of a specific book
+def view_book(request, id):
+    book = get_object_or_404(Book, id=id)
+    return render(request, 'view_book.html', {'book': book})
+
+# Create a new book
+@permission_required('books.can_create', raise_exception=True)
+def create_book(request):
     if request.method == 'POST':
-        # Handle form submission and create the post
-        new_post = Post.objects.create(title=request.POST['title'], content=request.POST['content'])
-        return redirect('post_detail', post_id=new_post.id)
-    return render(request, 'create_post.html')
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')  # Redirect to book list after successful creation
+    else:
+        form = BookForm()
+    return render(request, 'create_book.html', {'form': form})
 
-@permission_required('myapp.can_edit', raise_exception=True)
-def edit_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
+# Edit an existing book
+@permission_required('books.can_edit', raise_exception=True)
+def edit_book(request, id):
+    book = get_object_or_404(Book, id=id)
     if request.method == 'POST':
-        # Handle editing the post
-        post.title = request.POST['title']
-        post.content = request.POST['content']
-        post.save()
-        return redirect('post_detail', post_id=post.id)
-    return render(request, 'edit_post.html', {'post': post})
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('view_book', id=id)
+    else:
+        form = BookForm(instance=book)
+    return render(request, 'edit_book.html', {'form': form, 'book': book})
 
-@permission_required('myapp.can_delete', raise_exception=True)
-def delete_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    post.delete()
-    return redirect('post_list')
+# Delete a book
+@permission_required('books.can_delete', raise_exception=True)
+def delete_book(request, id):
+    book = get_object_or_404(Book, id=id)
+    book.delete()
+    return redirect('book_list')
