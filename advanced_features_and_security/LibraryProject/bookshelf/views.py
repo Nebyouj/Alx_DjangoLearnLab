@@ -2,6 +2,17 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import Book, Genre
 from .forms import BookForm  # Assuming you have a form to handle book creation and editing
+from .forms import BookSearchForm
+
+def search_books(request):
+    form = BookSearchForm(request.GET)
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        books = Book.objects.filter(title__icontains=query)
+    else:
+        books = []
+    return render(request, 'bookshelf/book_list.html', {'form': form, 'books': books})
+
 
 # View all books
 def book_list(request):

@@ -23,7 +23,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(&h5+9yn=b=#!7j_1%=n8b7#%45bok3(9sbdvztnix(e74up0#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+# Set the browser's XSS filter to protect against cross-site scripting attacks
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevent the site from being embedded in an iframe (protects against clickjacking)
+X_FRAME_OPTIONS = 'DENY'
+
+# Disable content sniffing to avoid certain types of attacks
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Ensure cookies are only sent over HTTPS in production
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Enable HTTPS redirect (useful for production)
+SECURE_SSL_REDIRECT = True
+
+# Ensure all HTTP cookies are set with the "HttpOnly" flag
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True
+
 
 ALLOWED_HOSTS = []
 
@@ -38,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookshelf.apps.BookshelfConfig',
+    'csp',
 ]
 
 MIDDLEWARE = [
@@ -48,7 +69,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
 ROOT_URLCONF = 'LibraryProject.urls'
 
