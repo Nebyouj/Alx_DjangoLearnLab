@@ -3,6 +3,22 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 
+class Post(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view post"),
+            ("can_create", "Can create post"),
+            ("can_edit", "Can edit post"),
+            ("can_delete", "Can delete post"),
+        ]
+
+    def __str__(self):
+        return self.title
+
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, password=None, **extra_fields):

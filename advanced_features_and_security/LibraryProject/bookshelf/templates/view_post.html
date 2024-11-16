@@ -1,0 +1,22 @@
+<!-- view_post.html -->
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - Post{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content }}</p>
+    
+    {% if perms.myapp.can_edit %}
+        <a href="{% url 'edit_post' post.id %}" class="btn btn-warning">Edit</a>
+    {% endif %}
+
+    {% if perms.myapp.can_delete %}
+        <form action="{% url 'delete_post' post.id %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

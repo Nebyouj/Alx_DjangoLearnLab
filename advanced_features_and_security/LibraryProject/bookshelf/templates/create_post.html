@@ -1,0 +1,23 @@
+<!-- create_post.html -->
+{% extends 'base.html' %}
+
+{% block title %}Create New Post - Book Store{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Create New Post</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Create Post</button>
+    </form>
+</div>
+{% endblock %}
