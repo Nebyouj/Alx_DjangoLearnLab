@@ -20,10 +20,8 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, username, password, **extra_fields)
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=20)
     date_of_birth = models.DateField(default=timezone.now)
-    profile_picture = models.ImageField(upload_to='profile_pics/')
+    profile_photo = models.ImageField(upload_to='profile_pics/')
     
     objects = CustomUserManager()  # Set the custom manager
 
