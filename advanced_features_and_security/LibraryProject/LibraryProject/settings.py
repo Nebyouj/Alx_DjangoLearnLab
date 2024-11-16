@@ -44,6 +44,15 @@ SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 
+# Redirect HTTP to HTTPS
+SECURE_SSL_REDIRECT = True
+
+# HTTP Strict Transport Security (HSTS) settings
+# Instructs browsers to access your site only via HTTPS for a specific duration
+SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
+SECURE_HSTS_PRELOAD = True  # Allow preloading the HSTS setting in browsers
+
 
 ALLOWED_HOSTS = []
 
