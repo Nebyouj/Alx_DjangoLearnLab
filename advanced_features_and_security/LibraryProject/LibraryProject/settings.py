@@ -53,6 +53,9 @@ SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
 SECURE_HSTS_PRELOAD = True  # Allow preloading the HSTS setting in browsers
 
+# Ensure Django properly handles SSL when behind a proxy (e.g., load balancer)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 ALLOWED_HOSTS = []
 
@@ -79,6 +82,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'csp.middleware.CSPMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 ]
 
 CSP_DEFAULT_SRC = ("'self'",)
