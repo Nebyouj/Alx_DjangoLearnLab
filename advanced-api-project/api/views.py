@@ -3,7 +3,7 @@ from rest_framework import generics, permissions
 from .models import Book
 from .serializers import BookSerializer
 from django.utils import timezone
-from .permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 # ListView for retrieving all books
 class BookListView(generics.ListAPIView):
@@ -21,7 +21,7 @@ class BookDetailView(generics.RetrieveAPIView):
 class BookCreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         if serializer.validated_data['publication_year'] > timezone.now().date():
@@ -31,7 +31,7 @@ class BookCreateView(generics.CreateAPIView):
 class BookUpdateView(generics.UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def perform_update(self, serializer):
         if serializer.validated_data['publication_year'] > timezone.now().date():
@@ -43,7 +43,7 @@ class BookUpdateView(generics.UpdateAPIView):
 class BookDeleteView(generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # Authenticated users only
+    permission_classes = [IsAuthenticated]  # Authenticated users only
 
 
 
