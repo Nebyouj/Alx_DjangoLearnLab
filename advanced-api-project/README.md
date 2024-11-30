@@ -40,3 +40,10 @@ Use tools like Postman to test each endpoint and ensure that permissions and val
 - **Order by publication year (descending)**:
   `GET /books/?ordering=-publication_year`
 
+## Testing the API
+
+### How to Run Tests
+1. Ensure your virtual environment is activated.
+2. Run the following command to execute the test suite:
+   ```bash
+   python manage.py test api
