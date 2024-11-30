@@ -19,3 +19,24 @@ This project demonstrates how to configure CRUD operations for a `Book` model us
 
 ## Testing
 Use tools like Postman to test each endpoint and ensure that permissions and validations work as expected.
+
+
+## Advanced Query Capabilities
+
+### Features
+1. **Filtering**
+   - Example: `/books/?title=Django&author__name=John`
+2. **Searching**
+   - Example: `/books/?search=Python`
+3. **Ordering**
+   - Example: `/books/?ordering=title`
+   - Descending: `/books/?ordering=-publication_year`
+
+### Sample Requests:
+- **Filter by title**:
+  `GET /books/?title=Learning REST`
+- **Search for books containing 'Django'**:
+  `GET /books/?search=Django`
+- **Order by publication year (descending)**:
+  `GET /books/?ordering=-publication_year`
+
