@@ -1,6 +1,6 @@
 from rest_framework.exceptions import ValidationError
 from rest_framework import generics, filters
-from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework
 from .models import Book
 from .serializers import BookSerializer
 from django.utils import timezone
@@ -16,7 +16,7 @@ class BookListView(generics.ListAPIView):
     - Ordering results by title or publication year (ascending/descending).
 
     Query Parameters:
-    
+
     - Filtering: ?title=TitleValue&author__name=AuthorName
     - Searching: ?search=SearchTerm
     - Ordering: ?ordering=field_name or ?ordering=-field_name for descending order
@@ -26,7 +26,7 @@ class BookListView(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]  # Read-only for everyone
 
      # Enable filtering, searching, and ordering
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [rest_framework.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 
     # Define fields for filtering
     filterset_fields = ['title', 'author__name', 'publication_year']
