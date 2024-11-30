@@ -74,6 +74,24 @@ class BookAPITestCase(APITestCase):
         response = self.client.get(self.list_url, {'ordering': 'publication_year'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data[0]['title'], 'Old Book')
+
+    def test_create_book_authenticated(self):
+        # Log in the user
+        self.client.login(username='testuser', password='password')
+    
+        # Prepare new book data
+        new_book_data = {
+            "title": "New Book",
+            "author": "New Author",
+            "publication_year": 2021
+        }
+        # Make the POST request to create the book
+        response = self.client.post('/api/books/', new_book_data, format='json')
+        # Assert that the response status code is 201 (Created)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+         # Check if the book count increased by 1
+        self.assertEqual(Book.objects.count(), 2)
+
     def test_unauthenticated_user_cannot_create_book(self):
 
         """Test that unauthenticated users cannot create books."""
