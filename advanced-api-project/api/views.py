@@ -1,23 +1,49 @@
-from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
-from .models import Book,Author
-from .serializer import BookSerializer,AuthorSerializer
+from rest_framework.exceptions import ValidationError
+from rest_framework import generics, permissions
+from .models import Book
+from .serializers import BookSerializer
+from django.utils import timezone
+from .permissions import IsAuthenticatedOrReadOnly
 
-class BookListCreateAPIView(ListCreateAPIView):
+# ListView for retrieving all books
+class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Read-only for everyone
 
-class BooKRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+# DetailView for retrieving a single book by ID
+class BookDetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    lookup_field = 'title'
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Read-only for everyone
 
-class AuthorListCreateAPIView(ListCreateAPIView):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
 
-class AuthorRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
-    lookup_field = 'name'
+class BookCreateView(generics.CreateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        if serializer.validated_data['publication_year'] > timezone.now().date():
+            raise ValidationError("Publication year cannot be in the future.")
+        serializer.save()
+
+class BookUpdateView(generics.UpdateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def perform_update(self, serializer):
+        if serializer.validated_data['publication_year'] > timezone.now().date():
+            raise ValidationError("Publication year cannot be in the future.")
+        serializer.save()
+
+
+# DeleteView for removing a book
+class BookDeleteView(generics.DestroyAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Authenticated users only
+
 
 
