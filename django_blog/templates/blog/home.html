@@ -1,0 +1,22 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<div class="container">
+    <h1>Welcome to the Blog</h1>
+    <hr>
+    {% if posts %}
+        <ul>
+            {% for post in posts %}
+                <li>
+                    <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
+                    <p>By {{ post.author }} on {{ post.published_date }}</p>
+                    <p>{{ post.content|truncatewords:30 }}</p>
+                    <a href="{% url 'post_detail' post.id %}">Read More</a>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No posts available. Check back later!</p>
+    {% endif %}
+</div>
+{% endblock %}

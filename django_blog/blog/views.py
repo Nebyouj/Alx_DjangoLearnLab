@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.views import LoginView,LogoutView
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -24,5 +24,15 @@ def register(request):
 
 @login_required
 def profile(requests):
-    return render(requests, 'blog/profile.html',)
+    return render(requests, 'blog/profile.html')
+
+
+def home(request):
+    posts = Post.objects.all().order_by('-published_date')
+    return render(request, 'blog/home.html', {'posts': posts})
+
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'blog/post.html', {'post': post})
+
 
