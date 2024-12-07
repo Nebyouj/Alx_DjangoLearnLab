@@ -13,7 +13,7 @@ from .models import Post, Comment
 from .forms import CommentForm
 
 @login_required
-def add_comment(request, post_id):
+def CommentCreateView(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -28,7 +28,7 @@ def add_comment(request, post_id):
     return render(request, 'blog/comment_form.html', {'form': form})
 
 @login_required
-def edit_comment(request, comment_id):
+def CommentUpdateView(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     if request.user != comment.author:
         return HttpResponseForbidden()
@@ -42,7 +42,7 @@ def edit_comment(request, comment_id):
     return render(request, 'blog/comment_form.html', {'form': form})
 
 @login_required
-def delete_comment(request, comment_id):
+def CommentDeleteView(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     if request.user != comment.author:
         return HttpResponseForbidden()
