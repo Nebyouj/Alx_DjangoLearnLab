@@ -200,3 +200,24 @@ django_blog/
 ### Notes
 - Comments are displayed in reverse chronological order.
 - CSRF protection is enabled for all comment forms.
+
+
+
+## Tagging and Search Functionality
+
+### Tagging
+- **Create Tags**: Add tags to posts during creation or editing.
+- **View Tags**: Tags are displayed under each post in the post detail view.
+- **Filter by Tag**: Click on a tag to view all posts associated with it.
+
+### Search
+- **Search Bar**: Enter keywords to search for posts based on titles, content, or tags.
+- **Results Page**: Displays all posts matching the query.
+
+### URLs
+- `/search/`: Access the search bar for posts.
+- `/tags/<slug>/`: View posts associated with a specific tag.
+
+### Notes
+- Tags are case-insensitive and automatically slugified for URLs.
+- Search results are distinct and include all matches for the query.
