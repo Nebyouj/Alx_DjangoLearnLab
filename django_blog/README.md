@@ -178,3 +178,25 @@ django_blog/
 ### Notes
 - CSRF protection is enabled for all forms.
 - Passwords are securely hashed using Django's default authentication system.
+
+
+## Comment System
+
+### Features
+- **View Comments**: Users can view all comments under a blog post.
+- **Add Comments**: Authenticated users can add comments to posts.
+- **Edit Comments**: Authors can edit their own comments.
+- **Delete Comments**: Authors can delete their own comments.
+
+### URL Patterns
+- `/post/<id>/comment/new/`: Add a new comment to a post.
+- `/comment/<id>/edit/`: Edit a comment.
+- `/comment/<id>/delete/`: Delete a comment.
+
+### Permissions
+- **Authenticated Users**: Can add, edit, or delete their own comments.
+- **Guests**: Can view comments but cannot add, edit, or delete.
+
+### Notes
+- Comments are displayed in reverse chronological order.
+- CSRF protection is enabled for all comment forms.
