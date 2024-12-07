@@ -154,3 +154,27 @@ django_blog/
 3. **Two-Factor Authentication (2FA)**: Enhance security for login.
 
 
+## Blog Post Management (CRUD)
+
+### Features
+- **List All Posts**: View all blog posts with titles and brief snippets.
+- **View Individual Post**: Read the full content of a post.
+- **Create Post**: Authenticated users can create new posts.
+- **Edit Post**: Authors can update their own posts.
+- **Delete Post**: Authors can delete their own posts.
+
+### URL Patterns
+- `/`: View all posts.
+- `/post/new/`: Create a new post.
+- `/post/<id>/`: View details of a post.
+- `/post/<id>/edit/`: Edit a post (author only).
+- `/post/<id>/delete/`: Delete a post (author only).
+
+### Access Control
+- **Authenticated Users**: Can create posts.
+- **Post Authors**: Can edit or delete their own posts.
+- **Guests**: Can only view posts.
+
+### Notes
+- CSRF protection is enabled for all forms.
+- Passwords are securely hashed using Django's default authentication system.
