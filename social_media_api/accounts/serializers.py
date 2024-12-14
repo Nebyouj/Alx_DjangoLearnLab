@@ -4,21 +4,18 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
-# Import the custom user model
+# default user model
 User = get_user_model()
 
-# User Registration Serializer
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
-    token = serializers.SerializerMethodField()
+    # Define CharField explicitly for username and password
+    username = serializers.CharField(required=True, max_length=150)
+    email = serializers.CharField(required=True, max_length=255)
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'token']
-
-    def get_token(self, obj):
-        token, created = Token.objects.get_or_create(user=obj)
-        return token.key
+        fields = ['id', 'username', 'email', 'password']
 
     def create(self, validated_data):
         user = User.objects.create_user(
@@ -26,9 +23,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             password=validated_data['password']
         )
-        # Create Token for the new user
-        Token.objects.create(user=user)
         return user
+
 
 
 # User Login Serializer
