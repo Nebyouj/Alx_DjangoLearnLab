@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import PostViewSet, CommentViewSet
+from .views import PostViewSet, CommentViewSet,FeedView
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet, basename='post')
@@ -16,4 +16,5 @@ urlpatterns = [
         'put': 'update',
         'delete': 'destroy',
     }), name='comment-detail'),
+    path('feed/', FeedView.as_view(), name='user-feed'),
 ]
