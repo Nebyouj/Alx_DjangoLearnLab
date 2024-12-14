@@ -7,6 +7,7 @@ from notifications.models import Notification
 from rest_framework import status
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework.filters import SearchFilter
+from rest_framework import generics
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
@@ -17,6 +18,11 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+    
+    def get(self, request, pk):
+        post = generics.get_object_or_404(Post, pk=pk)
+        serializer = PostSerializer(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
