@@ -35,26 +35,26 @@ class ProfileView(APIView):
     
 
 
-User = get_user_model()
+CustomUser = get_user_model()
 
 class FollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
         try:
-            user_to_follow = User.objects.get(id=user_id)
+            user_to_follow = CustomUser.objects.get(id=user_id)
             request.user.following.add(user_to_follow)
             return Response({"message": f"You are now following user {user_id}."})
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return Response({"error": "User not found."}, status=404)
 
 class UnfollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
         try:
-            user_to_unfollow = User.objects.get(id=user_id)
+            user_to_unfollow = CustomUser.objects.get(id=user_id)
             request.user.following.remove(user_to_unfollow)
             return Response({"message": f"You have unfollowed user {user_id}."})
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return Response({"error": "User not found."}, status=404)
