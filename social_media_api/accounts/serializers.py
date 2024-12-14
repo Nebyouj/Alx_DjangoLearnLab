@@ -4,8 +4,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
-# default user model
-User = get_user_model()
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     # Define CharField explicitly for username and password
@@ -18,7 +16,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'password']
 
     def create(self, validated_data):
-        user = User.objects.create_user(
+        user = get_user_model.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password']
