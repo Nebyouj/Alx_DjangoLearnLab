@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
-
+user = get_user_model()
 class UserRegistrationSerializer(serializers.ModelSerializer):
     # Define CharField explicitly for username and password
     username = serializers.CharField(required=True, max_length=150)
@@ -27,7 +27,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
 # User Login Serializer
 class UserLoginSerializer(serializers.Serializer):
-    username = serializers.CharField(required=True)
+    username = serializers.CharField()
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
     token = serializers.CharField(read_only=True)
 
