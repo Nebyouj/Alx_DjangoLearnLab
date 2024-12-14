@@ -42,7 +42,7 @@ class FollowUserView(APIView):
 
     def post(self, request, user_id):
         try:
-            user_to_follow = CustomUser.objects.get(id=user_id)
+            user_to_follow = CustomUser.objects.all()
             request.user.following.add(user_to_follow)
             return Response({"message": f"You are now following user {user_id}."})
         except CustomUser.DoesNotExist:
