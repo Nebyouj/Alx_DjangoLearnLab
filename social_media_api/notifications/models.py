@@ -12,6 +12,7 @@ class Notification(models.Model):
     target_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     target_object_id = models.PositiveIntegerField()
     target = GenericForeignKey('target_content_type', 'target_object_id')
+     timestamp = models.DateTimeField(auto_now_add=True)  # Automatically set the creation time
     created_at = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
 
